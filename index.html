@@ -1,0 +1,85 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SUNO GHOSTWRITER</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <!-- PDF.js and JSZip for file processing -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <style>
+      :root {
+        --neon-cyan: #00f3ff;
+        --neon-purple: #bc13fe;
+        --studio-black: #050505;
+        --card-bg: #111111;
+      }
+      body {
+        background-color: var(--studio-black);
+        color: #e0e0e0;
+        margin: 0;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      }
+      .neon-border {
+        box-shadow: 0 0 10px rgba(0, 243, 255, 0.2);
+        border: 1px solid rgba(0, 243, 255, 0.3);
+      }
+      .neon-text-cyan {
+        color: var(--neon-cyan);
+        text-shadow: 0 0 5px rgba(0, 243, 255, 0.5);
+      }
+      .neon-text-purple {
+        color: var(--neon-purple);
+        text-shadow: 0 0 5px rgba(188, 19, 254, 0.5);
+      }
+      .glass-card {
+        background: var(--card-bg);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+      }
+      .btn-neon {
+        background: linear-gradient(45deg, var(--neon-cyan), var(--neon-purple));
+        color: black;
+        font-weight: 900;
+        transition: all 0.3s ease;
+        box-shadow: 0 0 15px rgba(0, 243, 255, 0.4);
+      }
+      .btn-neon:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 0 25px rgba(188, 19, 254, 0.6);
+        color: white;
+      }
+      ::-webkit-scrollbar {
+        width: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: var(--studio-black);
+      }
+      ::-webkit-scrollbar-thumb {
+        background: var(--neon-purple);
+        border-radius: 10px;
+      }
+      /* Custom styles for the file input and badges */
+      .file-badge {
+        background: rgba(188, 19, 254, 0.1);
+        border: 1px solid var(--neon-purple);
+        box-shadow: 0 0 8px rgba(188, 19, 254, 0.3);
+      }
+    </style>
+    <script type="importmap">
+    {
+      "imports": {
+        "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+        "@google/genai": "https://esm.sh/@google/genai@^1.34.0",
+        "react": "https://esm.sh/react@^19.2.3",
+        "react/": "https://esm.sh/react@^19.2.3/"
+      }
+    }
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>

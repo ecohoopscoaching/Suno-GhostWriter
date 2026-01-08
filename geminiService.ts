@@ -15,34 +15,70 @@ export const generateHit = async (data: SongFormData): Promise<GenerationResult>
        """
        ${data.fileContext.substring(0, 15000)} 
        """
-       Use the themes, characters, and narrative from the text above as the primary inspiration for the song's story.`
+       Use the themes and story from the document context provided above.`
     : "";
 
+  let structure = "";
+  if (data.performanceMode === 'solo_rap') {
+    structure = `
+    1. [Intro]: Cinematic build.
+    2. [Verse 1]: ${rapper.tag}. 16 bars.
+    3. [Refrain]: [Hook | ${rapper.name}]. Rhythmic and catchy.
+    4. [Verse 2]: ${rapper.tag.replace(']', ' | Flow Switch]')}. 16 bars.
+    5. [Refrain]: Repeat hook.
+    6. [Outro]: [Outro | Fade Out].`;
+  } else if (data.performanceMode === 'solo_singer') {
+    structure = `
+    1. [Intro]: Melodic start.
+    2. [Verse 1]: ${singer.tag.replace('Chorus', 'Verse')}. 8-12 bars.
+    3. [Chorus]: ${singer.tag}. Big vocal performance.
+    4. [Verse 2]: ${singer.tag.replace('Chorus', 'Verse')}. 8-12 bars.
+    5. [Chorus]: Repeat big vocal performance.
+    6. [Bridge]: [Bridge | ${singer.name}]. Emotional high.
+    7. [Outro]: [Outro | Vocal Fade].`;
+  } else {
+    structure = `
+    1. [Intro]: Production intro.
+    2. [Verse 1]: ${rapper.tag}. 8-12 bars.
+    3. [Chorus]: ${singer.tag}. Vocal hook.
+    4. [Verse 2]: ${rapper.tag.replace(']', ' | Flow Switch]')}. 8-12 bars.
+    5. [Chorus]: Repeat hook.
+    6. [Verse 3]: [Verse | Interaction]. Rapper and Singer together.
+    7. [Outro]: [Outro | Interaction | Fade].`;
+  }
+
+  let specialPersonaInstructions = "";
+  if (data.rapperName.includes("King Los")) {
+    specialPersonaInstructions = `
+      SPECIAL INSTRUCTION FOR 'THE ARCHITECT (KING LOS)' PERSONA:
+      - Technique: FOCUS ON LYRICAL ARCHITECTURE. Build syllables like a master trade.
+      - Syllable Matching: Every word must have a purpose. Match syllable counts across rhyming lines for a 'domino effect'.
+      - Internal Rhyming: Rhyme words *inside* the lines as well as at the ends.
+      - Elastic Flow: Change speeds instantly. Go from slow street-pace to rapid double-time. Indicate this with meta-tags like [Double-time] or [Staccato].
+      - Wordplay: Use word-association double meanings (e.g. 'Ice-T Range and the beat coco' -> 'Ice-T TV and Coco'). 
+      - Substance: Blend street scholarship with themes of spirituality, fatherhood, and guidance.
+      - Flow Inspiration: Rhythmic motor of Krayzie Bone with the street scholar enunciation of Nas. No mumbling. Articulate every syllable.
+    `;
+  }
+
   const systemInstruction = `You are a world-class AI music ghostwriter. 
-  Your task is to write high-impact lyrics using Suno AI's meta-tagging system.
+  Your goal is to write high-impact lyrics using Suno AI's meta-tagging system.
   
   ${contextInstruction}
+  ${specialPersonaInstructions}
 
-  MANDATORY STRUCTURE:
-  1. [Intro]: Create a short intro tag based on ${producer.name}'s production style.
-  2. [Verse 1]: Use EXACT tag: ${rapper.tag}. Write 8-12 bars.
-  3. [Chorus]: Use EXACT tag: ${singer.tag}. Write a powerful 4-line hook.
-  4. [Verse 2]: Use tag: ${rapper.tag.replace(']', ' | Flow Switch]')}. Write 8-12 bars that escalate the story.
-  5. [Chorus]: Repeat the hook text exactly.
-  6. [Verse 3]: Use tag: ${rapper.tag.replace(']', ' | High Intensity | Finale]')}. Write a final 8 bars that bring the song to a climax.
-  7. [Outro]: [Outro | Fade Out].
+  MANDATORY STRUCTURE:${structure}
 
-  Formatting:
+  Formatting Rules:
   - Do not use markdown like bolding.
-  - Keep the meta-tags on their own line above the lyrics.
-  - Lyrics must be professional, thematic, and rhythmic.`;
+  - Put all meta-tags on their own lines.
+  - Write professional lyrics reflecting the production style: ${producer.style}.`;
 
-  const prompt = `Write a song about the topic/vibe: "${data.topic}".
-  Production style: ${producer.style}.
-  Rapper persona: ${rapper.name}.
-  Singer persona: ${singer.name}.
-  
-  Ensure the story aligns with any provided document context.`;
+  const prompt = `Write a song about: "${data.topic}".
+  Producer Style: ${producer.name} (${producer.style}).
+  Performance Mode: ${data.performanceMode.replace('_', ' ')}.
+  Rapper: ${rapper.name}.
+  Singer: ${singer.name}.`;
 
   try {
     const response = await ai.models.generateContent({
@@ -50,7 +86,7 @@ export const generateHit = async (data: SongFormData): Promise<GenerationResult>
       contents: prompt,
       config: {
         systemInstruction,
-        temperature: 0.85,
+        temperature: 0.8,
       },
     });
 
@@ -62,6 +98,6 @@ export const generateHit = async (data: SongFormData): Promise<GenerationResult>
     };
   } catch (error) {
     console.error("Gemini API Error:", error);
-    throw new Error("Failed to connect to the studio engine.");
+    throw new Error("Failed to connect to the ghostwriting engine.");
   }
 };

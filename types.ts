@@ -11,12 +11,22 @@ export interface Persona {
   tag: string;
 }
 
+export type PerformanceMode = 'duet' | 'solo_rap' | 'solo_singer';
+
 export interface SongFormData {
+  performanceMode: PerformanceMode;
   producerId: string;
   rapperName: string;
   singerName: string;
   topic: string;
   fileContext?: string;
+}
+
+export interface Preset {
+  id: string;
+  name: string;
+  description: string;
+  config: Partial<SongFormData>;
 }
 
 export interface GenerationResult {

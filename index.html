@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SUNO GHOSTWRITER</title>
+    <title>Suno Ghostwriter</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <!-- PDF.js and JSZip for file processing -->
@@ -61,11 +60,17 @@
         background: var(--neon-purple);
         border-radius: 10px;
       }
-      /* Custom styles for the file input and badges */
       .file-badge {
         background: rgba(188, 19, 254, 0.1);
         border: 1px solid var(--neon-purple);
         box-shadow: 0 0 8px rgba(188, 19, 254, 0.3);
+      }
+      .custom-scrollbar::-webkit-scrollbar {
+        width: 4px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: rgba(188, 19, 254, 0.3);
+        border-radius: 2px;
       }
     </style>
     <script type="importmap">
